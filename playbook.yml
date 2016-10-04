@@ -26,25 +26,35 @@
         clone: yes
     
     - name: Create directory for local dotfiles 
-      file: dest="{{ dotfiles.local }}" state=directory
+      file: 
+        dest: "{{ dotfiles.local }}"
+        state: directory
 
     - name: 'Register thoughtbot formulae'
-      apt_repository: repo='ppa:martin-frost/thoughtbot-rcm' 
+      apt_repository: 
+        repo: 'ppa:martin-frost/thoughtbot-rcm' 
       become: true
 
-    - apt: update_cache=yes
+    - name: 'Updating apt-get cache'
+      apt: 
+        update_cache: yes
       become: true
 
-    - apt: name=rcm state=present
+    - name: 'Insatlling rcm'
+      apt: 
+        name: rcm 
+        state: present
       become: true
     
-    - apt: name=vim state=present
+    - name: 'Installing vim'
+      apt: name=vim state=present
       become: true
 
     - name: 'Linking files'
       shell: "rcup -vf -d {{ dotfiles.local }} -d {{ dotfiles.dest }} | { grep -v identical || true; }"
       register: rcup_output
       changed_when: rcup_output.stdout_lines|length > 0 
+
     - name: 'Cloning Vundle repo'
       git:
         repo: https://github.com/VundleVim/Vundle.vim.git
