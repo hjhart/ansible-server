@@ -1,0 +1,56 @@
+--- 
+-
+
+  vars:
+
+    local_user: "{{ ansible_user_id }}"
+    homedir: "/home/{{ local_user }}"
+    dotfiles:
+      local: "{{ homedir }}/.dotfiles-local"
+      dest: "{{ homedir }}/.dotfiles"
+      repo: git@github.com:hjhart/dotfiles.git 
+
+  hosts: localhost
+  tasks:
+    - name: Check that the server is alive
+      action: ping
+
+    - name: Clone dotfiles
+      # I set force and update to no so that if I have any working changes or changes that I haven't pushed up it doesn't reset my local history.
+      git: 
+        repo: "{{ dotfiles.repo }}"
+        dest: "{{ dotfiles.dest }}"
+        force: no
+        update: no
+        accept_hostkey: yes
+        clone: yes
+    
+    - name: Create directory for local dotfiles 
+      file: dest="{{ dotfiles.local }}" state=directory
+
+    - name: 'Register thoughtbot formulae'
+      apt_repository: repo='ppa:martin-frost/thoughtbot-rcm' 
+      become: true
+
+    - apt: update_cache=yes
+      become: true
+
+    - apt: name=rcm state=present
+      become: true
+    
+    - apt: name=vim state=present
+      become: true
+
+    - name: 'Linking files'
+      shell: "rcup -vf -d {{ dotfiles.local }} -d {{ dotfiles.dest }} | { grep -v identical || true; }"
+      register: rcup_output
+      changed_when: rcup_output.stdout_lines|length > 0 
+    - name: 'Cloning Vundle repo'
+      git:
+        repo: https://github.com/VundleVim/Vundle.vim.git
+        dest: "{{ homedir }}/.vim/bundle/Vundle.vim"
+        accept_hostkey: yes
+        clone: yes
+        force: yes
+        update: no
+
