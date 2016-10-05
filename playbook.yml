@@ -12,6 +12,7 @@
 
   hosts: localhost
   tasks:
+    - include: 'tasks/rubies.yml'
     - name: Check that the server is alive
       action: ping
 

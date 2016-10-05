@@ -1,0 +1,13 @@
+---
+- name: Install rbenv
+  apt: 
+    name: rbenv
+    state: present
+  become: true   
+- name: install ruby-build
+  apt: 
+    name: ruby-build
+    state: present
+  become: true   
+- name: install most recent version of ruby
+  command: rbenv install 2.2.3
