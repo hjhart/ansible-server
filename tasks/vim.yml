@@ -1,0 +1,12 @@
+- name: 'Installing vim'
+  apt: name=vim state=present
+  become: true
+
+- name: 'Cloning Vundle repo'
+  git:
+    repo: https://github.com/VundleVim/Vundle.vim.git
+    dest: "{{ homedir }}/.vim/bundle/Vundle.vim"
+    accept_hostkey: yes
+    clone: yes
+    force: yes
+    update: no

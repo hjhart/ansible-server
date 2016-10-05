@@ -1,0 +1,37 @@
+- name: Clone dotfiles
+  # I set force and update to no so that if I have any working changes or changes that I haven't pushed up it doesn't reset my local history.
+  git: 
+    repo: "{{ dotfiles.repo }}"
+    dest: "{{ dotfiles.dest }}"
+    force: no
+    update: no
+    accept_hostkey: yes
+    clone: yes
+
+- name: Create directory for local dotfiles 
+  file: 
+    dest: "{{ dotfiles.local }}"
+    state: directory
+
+- name: 'Register thoughtbot apt repository'
+  apt_repository: 
+    repo: 'ppa:martin-frost/thoughtbot-rcm' 
+  become: true
+
+- name: 'Updating apt-get cache'
+  apt: 
+    update_cache: yes
+  become: true
+
+- name: 'Insatlling rcm'
+  apt: 
+    name: rcm 
+    state: present
+  become: true
+
+- name: 'Linking files'
+  shell: "rcup -vf -d {{ dotfiles.local }} -d {{ dotfiles.dest }} | { grep -v identical || true; }"
+  register: rcup_output
+  changed_when: rcup_output.stdout_lines|length > 0 
+
+
