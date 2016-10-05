@@ -63,4 +63,4 @@
         clone: yes
         force: yes
         update: no
-
+    - include: tasks/git_config.yml

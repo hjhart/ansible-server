@@ -1,0 +1,40 @@
+---
+- git_config: name=core.editor scope=global value=/usr/bin/vim
+- git_config: name=core.excludesfile scope=global value="~/.gitignore"
+- git_config: name=core.excludesfile scope=global value="$HOME/.gitignore_global"
+- git_config: name=core.pager scope=global value="less -FXRS -x2"
+- git_config: name=include.path scope=global value="~/.gitconfig.local"
+- git_config: name=hub.protocol scope=global value="https"
+- git_config: name=credential.helper scope=global value="cache --timeout 32400"
+- git_config: name=autosetup.rebase scope=global value=true
+
+- git_config: name=alias.aa scope=global value="add --all"
+- git_config: name=alias.ap scope=global value="add --patch"
+- git_config: name=alias.branches scope=global value="for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes"
+- git_config: name=alias.ci scope=global value="commit -v"
+- git_config: name=alias.co scope=global value="checkout"
+- git_config: name=alias.pf scope=global value="push --force-with-lease"
+- git_config: name=alias.st scope=global value="status"
+- git_config: name=alias.burn scope=global value="reset --hard HEAD^"
+- git_config: name=alias.fixup scope=global value="commit --amend -C HEAD"
+- git_config: name=alias.g scope=global value="log --pretty=format:\"%h %an - %s\" --graph"
+- git_config: name=alias.lc scope=global value="log ORIG_HEAD.. --stat --no-merges"
+- git_config: name=alias.lgo scope=global value="log --oneline"
+- git_config: name=alias.nuke scope=global value="reset --hard HEAD"
+- git_config: name=alias.ol scope=global value='log --format=\"%C(yellow)%h%Creset %C(cyan)%aN%Creset\t%s\"'
+- git_config: name=alias.w scope=global value="whatchanged"
+- git_config: name=alias.uncommit scope=global value="reset --soft HEAD^"
+
+- git_config: name=branch.autosetuprebase scope=global value="remote"
+- git_config: name=branch.autosetupmerge scope=global value=true
+- git_config: name=branch.mergeoptions scope=global value="--no-commit --no-ff"
+
+- git_config: name=color.branch scope=global value="auto"
+- git_config: name=color.diff scope=global value="auto"
+- git_config: name=color.interactive scope=global value="auto"
+- git_config: name=color.status scope=global value="auto"
+- git_config: name=color.ui scope=global value=true
+
+- git_config: name=push.default scope=global value="current"
+- git_config: name=pull.default scope=global value="current"
+
