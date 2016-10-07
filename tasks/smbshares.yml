@@ -1,0 +1,22 @@
+---
+- name: 'Install cfs-utils'
+  apt: 
+    name: cifs-utils
+    state: present
+  become: true
+
+- name: 'Insert drive into /etc/fstab'
+  lineinfile:
+    dest: /etc/fstab
+    line: "//192.168.1.200/Downloads /mnt/downloads cifs user,uid=admin,gid=users,rw,suid,credentials=/etc/cifspwd 0 0"
+  become: true
+
+- name: 'create the credentials file'
+  template: 
+    src: cifspwd.j2
+    dest: /etc/cifspwd
+    mode: 0600
+  become: true
+  vars: 
+    username: username
+    password: password

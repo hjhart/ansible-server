@@ -10,6 +10,8 @@
 
   hosts: localhost
   tasks:
+    - include: tasks/smbshares.yml
+    - include: tasks/plex.yml
     - include: tasks/rubies.yml
     - include: tasks/git_config.yml
     - include: tasks/dotfiles.yml

@@ -1,0 +1,13 @@
+---
+- name: 'Download plex deb package'
+  get_url: 
+    url: 'https://downloads.plex.tv/plex-media-server/1.1.4.2757-24ffd60/plexmediaserver_1.1.4.2757-24ffd60_amd64.deb'
+    dest: /var/tmp/plex.deb
+
+- name: 'Unpack and install deb'
+  command: 'dpkg -i /var/tmp/plex.deb'
+  become: true
+
+- name: 'Install plex'
+  command: 'apt-get install -f'
+  become: true
